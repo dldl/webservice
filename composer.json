@@ -1,0 +1,29 @@
+{
+  "name": "dldl/web-service",
+  "type": "library",
+  "description": "dLdL WebService library",
+  "keywords": [],
+  "homepage": "https://dldl.io",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Quentin de Longraye",
+      "email": "quentin@dldl.fr"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "psr/cache": "~1.0",
+    "psr/log": "~1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.4"
+  },
+  "autoload": {
+    "psr-4": { "dLdL\\WebService\\": "" },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "minimum-stability": "dev"
+}
