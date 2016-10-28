@@ -12,7 +12,7 @@ Installation
 Install it with composer:
 
 ```sh
-composer require dldl/web-service
+composer require dldl/webservice
 ```
 
 Usage
