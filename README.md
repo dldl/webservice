@@ -1,6 +1,8 @@
 dLdLWebService
 ==============
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/d5e04165-7382-4cfa-aa34-8860f96af5ab/mini.png)](https://insight.sensiolabs.com/projects/d5e04165-7382-4cfa-aa34-8860f96af5ab)
+
 **This library is still under heavy development.**
 
 This PHP library allows you to follow a normalized way to connect to your WebServices, with logs and cache following
