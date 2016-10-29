@@ -3,7 +3,6 @@
 namespace dLdL\WebService\Tests;
 
 use dLdL\WebService\AbstractAdapter;
-use dLdL\WebService\Adapter\LoggerHelper;
 use dLdL\WebService\Exception\ConnectionException;
 use dLdL\WebService\Exception\RequestException;
 use Psr\Log\LoggerInterface;
