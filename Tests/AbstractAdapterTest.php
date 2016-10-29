@@ -11,7 +11,9 @@ class AbstractAdapterTest extends AbstractTestCase
 {
     protected function getTestedClass()
     {
-        return $this->getMockForAbstractClass(AbstractAdapter::class, [$this->createMock(LoggerInterface::class)]);
+        $abstractAdapter = $this->getMockForAbstractClass(AbstractAdapter::class);
+
+        return $abstractAdapter;
     }
 
     public function testInitialization()
@@ -63,6 +65,7 @@ class AbstractAdapterTest extends AbstractTestCase
     public function testRequest()
     {
         $abstractAdapter = $this->getTestedClass();
+        $abstractAdapter->setLogger($this->createMock(LoggerInterface::class));
 
         $abstractAdapter->expects($this->exactly(3))
             ->method('getHost')

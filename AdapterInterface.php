@@ -28,6 +28,8 @@ interface AdapterInterface
      * @throws ConnectionException if adapter is not connected
      *
      * @see AdapterInterface::isConnected() to check if adapter is connected
+     *
+     * @return string The current hostname
      */
     public function getHost();
 

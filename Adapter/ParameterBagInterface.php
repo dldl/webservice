@@ -31,8 +31,8 @@ interface ParameterBagInterface
     /**
      * Add a value to the bag.
      *
-     * @param string $name Key of the added value
-     * @param mixed $value Value added to the bag
+     * @param string $name  Key of the added value
+     * @param mixed  $value Value added to the bag
      */
     public function add($name, $value);
 
