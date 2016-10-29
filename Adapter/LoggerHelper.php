@@ -2,6 +2,7 @@
 
 namespace dLdL\WebService\Adapter;
 
+use dLdL\WebService\AdapterInterface;
 use dLdL\WebService\Http\Request;
 use Psr\Log\LoggerInterface;
 
@@ -14,56 +15,65 @@ class LoggerHelper
         $this->logger = $logger;
     }
 
-    public function request($host, Request $request, $class)
+    public function request(AdapterInterface $adapter, Request $request)
     {
         $this->logger->info(
-            sprintf('Sending request to %s using adapter %s.', $host.'/'.$request->getUrl(), $class),
+            sprintf('Sending request to %s%s using %s.',
+                $adapter->getHost(), $request->getUrl(), $this->className($adapter)
+            ),
             $request->getParameters()
         );
     }
 
-    public function response($host, $response, Request $request)
+    public function response(AdapterInterface $adapter, $response, Request $request)
     {
         $this->logger->debug(
-            sprintf('Response trace for request to %s.', $host.'/'.$request->getUrl()),
+            sprintf('Response trace for %s%s.', $adapter->getHost(), $request->getUrl()),
             [$response]
         );
     }
 
-    public function cacheGet($host, Request $request, $class)
+    public function cacheGet($host, Request $request, $cacheClass)
     {
         $this->logger->info(
-            sprintf('Retrieving data for url %s from cache %s.', $host.'/'.$request->getUrl(), $class),
+            sprintf('Retrieving data for %s%s from cache %s.', $host, $request->getUrl(), $cacheClass),
             $request->getParameters()
         );
     }
 
-    public function cacheAdd($host, Request $request, $class, $time)
+    public function cacheAdd($host, Request $request, $cacheClass, $time)
     {
         $this->logger->info(
-            sprintf('Adding data to cache %s for url %s (will expire in %s seconds).', $class, $host.'/'.$request->getUrl(), $time),
-            $request->getParameters()
-        );
-    }
-
-    public function connectionFailure($host, Request $request, $class)
-    {
-        $this->logger->error(
-            sprintf('Failed to connect to %s using the adapter %s.', $host.'/'.$request->getUrl(), $class),
-            $request->getParameters()
-        );
-    }
-
-    public function requestFailure($host, Request $request, $class, $exceptionMessage)
-    {
-        $this->logger->error(
-            sprintf(
-                'Failed to send request to %s using the adapter %s. Exception message : %s',
-                $host.'/'.$request->getUrl(),
-                $class,
-                $exceptionMessage
+            sprintf('Adding response for %s%s to cache %s (will expire in %s seconds).',
+                $host, $request->getUrl(), $cacheClass, $time
             ),
             $request->getParameters()
         );
+    }
+
+    public function connectionFailure(AdapterInterface $adapter, Request $request)
+    {
+        $this->logger->error(
+            sprintf('Failed to connect to %s%s using %s.',
+                $adapter->getHost(), $request->getUrl(), $this->className($adapter)
+            ),
+            $request->getParameters()
+        );
+    }
+
+    public function requestFailure(AdapterInterface $adapter, Request $request, $exceptionMessage)
+    {
+        $this->logger->error(
+            sprintf(
+                'Failed to send request to %s%s using %s. Exception message : %s',
+                $adapter->getHost(), $request->getUrl(), $this->className($adapter), $exceptionMessage
+            ),
+            $request->getParameters()
+        );
+    }
+
+    private function className(AdapterInterface $adapter)
+    {
+        return (new \ReflectionClass($adapter))->getShortName();
     }
 }

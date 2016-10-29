@@ -16,5 +16,5 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
         return new Request('/fake/get/url', 'GET', ['test' => true]);
     }
 
-    protected abstract function getTestedClass();
+    abstract protected function getTestedClass();
 }
