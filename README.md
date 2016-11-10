@@ -1,15 +1,15 @@
 dLdLWebService
 ==============
 
-[![Build Status](https://travis-ci.org/dldl/webservice.svg?branch=master)](https://travis-ci.org/dldl/webservice)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/d5e04165-7382-4cfa-aa34-8860f96af5ab/mini.png)](https://insight.sensiolabs.com/projects/d5e04165-7382-4cfa-aa34-8860f96af5ab)
-[![Latest Stable Version](https://poser.pugx.org/dldl/webservice/v/stable)](https://packagist.org/packages/dldl/webservice)
-![Licence](https://img.shields.io/github/license/dldl/webservice.svg)
-
 **This library is still under heavy development.**
 
 This PHP library allows you to follow a normalized way to connect to your WebServices, with logs and cache following
 PSR-3 and PSR-6.
+
+[![Build Status](https://travis-ci.org/dldl/webservice.svg?branch=master)](https://travis-ci.org/dldl/webservice)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/d5e04165-7382-4cfa-aa34-8860f96af5ab/mini.png)](https://insight.sensiolabs.com/projects/d5e04165-7382-4cfa-aa34-8860f96af5ab)
+[![Latest Stable Version](https://poser.pugx.org/dldl/webservice/v/stable)](https://packagist.org/packages/dldl/webservice)
+![Licence](https://img.shields.io/github/license/dldl/webservice.svg)
 
 Installation
 ------------
