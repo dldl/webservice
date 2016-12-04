@@ -12,7 +12,7 @@ use dLdL\WebService\Adapter\ParameterBag;
 use dLdL\WebService\Adapter\ParameterBagInterface;
 use Psr\Log\LoggerInterface;
 
-abstract class AbstractAdapter implements AdapterInterface
+abstract class AbstractConnector implements ConnectorInterface
 {
     /**
      * @var null|CacheHelperInterface
@@ -39,11 +39,11 @@ abstract class AbstractAdapter implements AdapterInterface
     public function sendRequest(Request $request)
     {
         if (!$this->isConnected() || $this->getHost() === null) {
-            throw new ConnectionException($this->currentAdapter().' must be connected before sending data.');
+            throw new ConnectionException($this->currentConnector().' must be connected before sending data.');
         }
 
         if (!$this->supportsMethod($request->getMethod())) {
-            throw new RequestException('Method '.$request->getMethod().' is not supported by '.$this->currentAdapter().'.');
+            throw new RequestException('Method '.$request->getMethod().' is not supported by '.$this->currentConnector().'.');
         }
 
         if ($this->hasCache() && $this->getCache()->getPool()->hasItem($request)) {
@@ -93,7 +93,7 @@ abstract class AbstractAdapter implements AdapterInterface
         $this->log->cacheAdd($this, $request, (new \ReflectionClass($this->getCache()))->getShortName(), $duration);
     }
 
-    private function currentAdapter()
+    private function currentConnector()
     {
         return (new \ReflectionClass($this))->getShortName();
     }

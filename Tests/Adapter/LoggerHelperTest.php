@@ -3,7 +3,7 @@
 namespace dLdL\WebService\Tests\Adapter;
 
 use dLdL\WebService\Adapter\LoggerHelper;
-use dLdL\WebService\AdapterInterface;
+use dLdL\WebService\ConnectorInterface;
 use dLdL\WebService\Http\Request;
 use dLdL\WebService\Tests\AbstractTestCase;
 use Psr\Log\LoggerInterface;
@@ -12,15 +12,15 @@ class LoggerHelperTest extends AbstractTestCase
 {
     /** @var \PHPUnit_Framework_MockObject_MockObject|Request */
     private $request;
-    /** @var \PHPUnit_Framework_MockObject_MockObject|AdapterInterface */
-    private $adapter;
+    /** @var \PHPUnit_Framework_MockObject_MockObject|ConnectorInterface */
+    private $connector;
     /** @var \PHPUnit_Framework_MockObject_MockObject|LoggerInterface */
     private $logger;
 
     public function setUp()
     {
-        $this->adapter = $this->getMockBuilder(AdapterInterface::class)
-            ->setMockClassName('RandomAdapter')
+        $this->connector = $this->getMockBuilder(ConnectorInterface::class)
+            ->setMockClassName('RandomConnector')
             ->getMock()
         ;
 
@@ -47,15 +47,15 @@ class LoggerHelperTest extends AbstractTestCase
 
         $this->logger->expects($this->once())
             ->method('info')
-            ->with('Sending request to http://example.com/test/url using RandomAdapter.', ['number' => 42])
+            ->with('Sending request to http://example.com/test/url using RandomConnector.', ['number' => 42])
         ;
 
-        $this->adapter->expects($this->once())
+        $this->connector->expects($this->once())
             ->method('getHost')
             ->willReturn('http://example.com')
         ;
 
-        $this->getTestedClass($this->logger)->request($this->adapter, $this->request);
+        $this->getTestedClass($this->logger)->request($this->connector, $this->request);
     }
 
     public function testResponse()
@@ -65,12 +65,12 @@ class LoggerHelperTest extends AbstractTestCase
             ->with('Response trace for http://example.com/test/url.', [['response' => 'ok']])
         ;
 
-        $this->adapter->expects($this->once())
+        $this->connector->expects($this->once())
             ->method('getHost')
             ->willReturn('http://example.com')
         ;
 
-        $this->getTestedClass($this->logger)->response($this->adapter, ['response' => 'ok'], $this->request);
+        $this->getTestedClass($this->logger)->response($this->connector, ['response' => 'ok'], $this->request);
     }
 
     public function testCacheGet()
@@ -112,15 +112,15 @@ class LoggerHelperTest extends AbstractTestCase
 
         $this->logger->expects($this->once())
             ->method('error')
-            ->with('Failed to connect to http://example.com/test/url using RandomAdapter.', ['number' => 42])
+            ->with('Failed to connect to http://example.com/test/url using RandomConnector.', ['number' => 42])
         ;
 
-        $this->adapter->expects($this->once())
+        $this->connector->expects($this->once())
             ->method('getHost')
             ->willReturn('http://example.com')
         ;
 
-        $this->getTestedClass($this->logger)->connectionFailure($this->adapter, $this->request);
+        $this->getTestedClass($this->logger)->connectionFailure($this->connector, $this->request);
     }
 
     public function testRequestFailure()
@@ -132,14 +132,14 @@ class LoggerHelperTest extends AbstractTestCase
 
         $this->logger->expects($this->once())
             ->method('error')
-            ->with('Failed to send request to http://example.com/test/url using RandomAdapter. Exception message : No Internet connection.', ['number' => 42])
+            ->with('Failed to send request to http://example.com/test/url using RandomConnector. Exception message : No Internet connection.', ['number' => 42])
         ;
 
-        $this->adapter->expects($this->once())
+        $this->connector->expects($this->once())
             ->method('getHost')
             ->willReturn('http://example.com')
         ;
 
-        $this->getTestedClass($this->logger)->requestFailure($this->adapter, $this->request, 'No Internet connection.');
+        $this->getTestedClass($this->logger)->requestFailure($this->connector, $this->request, 'No Internet connection.');
     }
 }

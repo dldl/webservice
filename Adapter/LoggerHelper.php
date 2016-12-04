@@ -2,7 +2,7 @@
 
 namespace dLdL\WebService\Adapter;
 
-use dLdL\WebService\AdapterInterface;
+use dLdL\WebService\ConnectorInterface;
 use dLdL\WebService\Http\Request;
 use Psr\Log\LoggerInterface;
 
@@ -15,20 +15,20 @@ class LoggerHelper
         $this->logger = $logger;
     }
 
-    public function request(AdapterInterface $adapter, Request $request)
+    public function request(ConnectorInterface $connector, Request $request)
     {
         $this->logger->info(
             sprintf('Sending request to %s%s using %s.',
-                $adapter->getHost(), $request->getUrl(), $this->className($adapter)
+                $connector->getHost(), $request->getUrl(), $this->className($connector)
             ),
             $request->getParameters()
         );
     }
 
-    public function response(AdapterInterface $adapter, $response, Request $request)
+    public function response(ConnectorInterface $connector, $response, Request $request)
     {
         $this->logger->debug(
-            sprintf('Response trace for %s%s.', $adapter->getHost(), $request->getUrl()),
+            sprintf('Response trace for %s%s.', $connector->getHost(), $request->getUrl()),
             [$response]
         );
     }
@@ -51,29 +51,29 @@ class LoggerHelper
         );
     }
 
-    public function connectionFailure(AdapterInterface $adapter, Request $request)
+    public function connectionFailure(ConnectorInterface $connector, Request $request)
     {
         $this->logger->error(
             sprintf('Failed to connect to %s%s using %s.',
-                $adapter->getHost(), $request->getUrl(), $this->className($adapter)
+                $connector->getHost(), $request->getUrl(), $this->className($connector)
             ),
             $request->getParameters()
         );
     }
 
-    public function requestFailure(AdapterInterface $adapter, Request $request, $exceptionMessage)
+    public function requestFailure(ConnectorInterface $connector, Request $request, $exceptionMessage)
     {
         $this->logger->error(
             sprintf(
                 'Failed to send request to %s%s using %s. Exception message : %s',
-                $adapter->getHost(), $request->getUrl(), $this->className($adapter), $exceptionMessage
+                $connector->getHost(), $request->getUrl(), $this->className($connector), $exceptionMessage
             ),
             $request->getParameters()
         );
     }
 
-    private function className(AdapterInterface $adapter)
+    private function className(ConnectorInterface $connector)
     {
-        return (new \ReflectionClass($adapter))->getShortName();
+        return (new \ReflectionClass($connector))->getShortName();
     }
 }

@@ -5,7 +5,7 @@ namespace dLdL\WebService\Adapter;
 use dLdL\WebService\Exception\UndefinedParameterException;
 
 /**
- * ParameterBag that can be used to define parameters (used by adapters and cache system).
+ * ParameterBag that can be used to define parameters (used by connectors and adapters such as cache system).
  */
 interface ParameterBagInterface
 {
