@@ -9,12 +9,12 @@ use Psr\Log\LoggerInterface;
 use dLdL\WebService\Http\Request;
 
 /**
- * AdapterInterface defines basic rules to connect to a WebService.
+ * ConnectorInterface defines rules to connect to a WebService.
  */
-interface AdapterInterface
+interface ConnectorInterface
 {
     /**
-     * Initialize the adapter.
+     * Initialize the connector and the connection to the host if needed.
      *
      * @param string $host Host of the webservice
      *
@@ -23,30 +23,30 @@ interface AdapterInterface
     public function connect($host);
 
     /**
-     * Get the current adapter host.
+     * Get the current connector host.
      *
-     * @throws ConnectionException if adapter is not connected
+     * @throws ConnectionException if connector is not connected and initialized
      *
-     * @see AdapterInterface::isConnected() to check if adapter is connected
+     * @see ConnectorInterface::isConnected() to check if connector is connected
      *
      * @return string The current hostname
      */
     public function getHost();
 
     /**
-     * Check if the adapter is initialized.
+     * Check if the connector is initialized and connected if needed.
      *
-     * @return bool true if this adapter can handle requests
+     * @return bool true if this connector can handle requests
      */
     public function isConnected();
 
     /**
-     * Disconnect the adapter and free resources.
+     * Disconnect the connector and free resources.
      */
     public function disconnect();
 
     /**
-     * Check if the interface supports a specific request method.
+     * Check if the connector supports a specific request method.
      *
      * @param string $method The method to be checked, for instance : 'GET', 'POST', ...
      *
@@ -64,7 +64,7 @@ interface AdapterInterface
     public function sendRequest(Request $request);
 
     /**
-     * Get the parameters defined for the adapter.
+     * Get the defined parameters of the connector.
      *
      * @return ParameterBag The ParameterBag with defined parameters
      */
@@ -78,7 +78,7 @@ interface AdapterInterface
     public function setCache(CacheHelperInterface $cache = null);
 
     /**
-     * Check if a cache handler is defined for the adapter.
+     * Check if a cache handler is defined for the parameters.
      *
      * @return bool
      */

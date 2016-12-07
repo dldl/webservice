@@ -2,56 +2,56 @@
 
 namespace dLdL\WebService\Tests;
 
-use dLdL\WebService\AbstractAdapter;
+use dLdL\WebService\AbstractConnector;
 use dLdL\WebService\Exception\ConnectionException;
 use dLdL\WebService\Exception\RequestException;
 use Psr\Log\LoggerInterface;
 
-class AbstractAdapterTest extends AbstractTestCase
+class AbstractConnectorTest extends AbstractTestCase
 {
     protected function getTestedClass()
     {
-        $abstractAdapter = $this->getMockForAbstractClass(AbstractAdapter::class);
+        $abstractConnector = $this->getMockForAbstractClass(AbstractConnector::class);
 
-        return $abstractAdapter;
+        return $abstractConnector;
     }
 
     public function testInitialization()
     {
-        $abstractAdapter = $this->getTestedClass();
+        $abstractConnector = $this->getTestedClass();
 
-        $this->assertFalse($abstractAdapter->hasCache());
+        $this->assertFalse($abstractConnector->hasCache());
     }
 
     public function testSendRequestWithoutConnexion()
     {
-        $abstractAdapter = $this->getTestedClass();
+        $abstractConnector = $this->getTestedClass();
 
-        $abstractAdapter->expects($this->once())
+        $abstractConnector->expects($this->once())
             ->method('isConnected')
             ->willReturn(false)
         ;
 
         $this->expectException(ConnectionException::class);
 
-        $abstractAdapter->sendRequest($this->getFakeGetRequest());
+        $abstractConnector->sendRequest($this->getFakeGetRequest());
     }
 
     public function testUnsupportedRequestMethod()
     {
-        $abstractAdapter = $this->getTestedClass();
+        $abstractConnector = $this->getTestedClass();
 
-        $abstractAdapter->expects($this->once())
+        $abstractConnector->expects($this->once())
             ->method('getHost')
             ->willReturn('http://example.com')
         ;
 
-        $abstractAdapter->expects($this->once())
+        $abstractConnector->expects($this->once())
             ->method('isConnected')
             ->willReturn(true)
         ;
 
-        $abstractAdapter->expects($this->once())
+        $abstractConnector->expects($this->once())
             ->method('supportsMethod')
             ->with('POST')
             ->willReturn(false)
@@ -59,36 +59,36 @@ class AbstractAdapterTest extends AbstractTestCase
 
         $this->expectException(RequestException::class);
 
-        $abstractAdapter->sendRequest($this->getFakePostRequest());
+        $abstractConnector->sendRequest($this->getFakePostRequest());
     }
 
     public function testRequest()
     {
-        $abstractAdapter = $this->getTestedClass();
-        $abstractAdapter->setLogger($this->createMock(LoggerInterface::class));
+        $abstractConnector = $this->getTestedClass();
+        $abstractConnector->setLogger($this->createMock(LoggerInterface::class));
 
-        $abstractAdapter->expects($this->exactly(3))
+        $abstractConnector->expects($this->exactly(3))
             ->method('getHost')
             ->willReturn('http://example.com')
         ;
 
-        $abstractAdapter->expects($this->once())
+        $abstractConnector->expects($this->once())
             ->method('isConnected')
             ->willReturn(true)
         ;
 
-        $abstractAdapter->expects($this->once())
+        $abstractConnector->expects($this->once())
             ->method('supportsMethod')
             ->with('POST')
             ->willReturn(true)
         ;
 
-        $abstractAdapter->expects($this->once())
+        $abstractConnector->expects($this->once())
             ->method('handleRequest')
             ->with($this->getFakePostRequest())
             ->willReturn('response')
         ;
 
-        $this->assertEquals('response', $abstractAdapter->sendRequest($this->getFakePostRequest()));
+        $this->assertEquals('response', $abstractConnector->sendRequest($this->getFakePostRequest()));
     }
 }

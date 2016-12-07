@@ -3,15 +3,15 @@
 namespace dLdL\WebService;
 
 /**
- * WebServiceInterface encapsulates an adapter that can be used
- * by any WebService connector to get data from a web service.
+ * WebServiceInterface encapsulates a connector that can be used
+ * by any WebService class to get data from a web service.
  */
 interface WebServiceInterface
 {
     /**
-     * Get the adapter used by the connector to contact the WebService.
+     * Get the connector used by the WebService class to contact the WebService.
      *
-     * @return AdapterInterface
+     * @return ConnectorInterface
      */
-    public function getAdapter();
+    public function getConnector();
 }
