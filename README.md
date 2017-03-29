@@ -1,9 +1,7 @@
 dLdLWebService
 ==============
 
-**This library is still under heavy development.**
-
-This PHP library allows you to follow a normalized way to connect to your WebServices, with logs and cache following
+This PHP library allows you to follow a normalized way to connect to your web services, with support for logs and cache following
 PSR-3 and PSR-6.
 
 [![Build Status](https://travis-ci.org/dldl/webservice.svg?branch=master)](https://travis-ci.org/dldl/webservice)
@@ -14,7 +12,7 @@ PSR-3 and PSR-6.
 Installation
 ------------
 
-Install it with composer:
+Install it using Composer:
 
 ```sh
 composer require dldl/webservice
@@ -23,7 +21,7 @@ composer require dldl/webservice
 Usage
 -----
 
-Here is a simple commented example to see how it can be used:
+Here is a simple example to see how this library can be used:
 
 ```php
 <?php
@@ -39,14 +37,14 @@ use dLdL\WebService\Http\Request;
 class FacebookWebService implements WebServiceInterface
 {
     private $connector;
-    private $host;
     private $parser;
+    private $host;
 
     public function __construct(ConnectorInterface $connector, ParserInterface $parser, $host)
     {
         $this->connector = $connector;
-        $this->host = $host;
         $this->parser = $parser;
+        $this->host = $host;
     }
 
     public function getConnector()
@@ -78,20 +76,22 @@ class FacebookWebService implements WebServiceInterface
 }
 ```
 
-The main idea is to split the WebService requests into three parts:
+Of course, you may perform specific actions in the catch blocks.
 
- - *Connectors*, in charge to connect to the WebService and to grab and/or send raw data from a predefined request
- - *Parsers*, in charge to transform this raw data to business objects
- - *WebServices*, in charge to check business conditions calling services but also to delegate the call to *connectors*
-   and to call *parsers*
+The main idea is to split the web service requests into three parts:
+
+ - *Connector*, in charge to connect to the web service and to grab and/or send raw data from a predefined request
+ - *Parser*, in charge to transform this raw data to business objects
+ - *WebService*, in charge to check business conditions calling services but also to delegate the call to *connectors*
+   and to *parsers*
  
-This allow to separate the way data is retrieve from the way data is aim to be used. It can be easy to cache, log,
+This allows to separate the way data is retrieve from the way data is aim to be used. It can be easy to cache, log,
 add extensions such as proxies and change the type of connector at any moment (for example, to move from a SOAP to a
-REST WebService).
+REST web service).
 
-Connectors must implement the `ConnectorInterface`. The easiest way is to extend the `AbstractConnector` class. Connectors
-can use any technology such as `cURL`, `Guzzle`, `Soap` or any specific library but must be independent to the data
-it handles.
+Connectors must implement the `ConnectorInterface`. The easiest way is to extend the `AbstractConnector` class which provides
+logs and cache out of the box. Connectors can use any technology such as `cURL`, `Guzzle`, `Soap` or any specific library
+but must be independent to the data it handles.
 
 Contribution
 ------------
