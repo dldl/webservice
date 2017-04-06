@@ -1,6 +1,8 @@
 dLdLWebService
 ==============
 
+**⚠ Development for this library has stopped since [HTTPlug](https://github.com/php-http/httplug) is more complete and plays the same role.**
+
 This PHP library allows you to follow a normalized way to connect to your web services, with support for logs and cache following
 PSR-3 and PSR-6.
 
